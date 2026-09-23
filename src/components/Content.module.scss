@@ -1,0 +1,17 @@
+.grid{
+ display: grid;
+ grid-template-columns: repeat(3,350px);
+ grid-template-columns: repeat(3,350px);
+gap: 20px;
+ place-content: center;
+}
+.elem{
+ border: 1px solid red;
+ height: 500px;
+ border-radius: 20px;
+ align-content: center;
+ text-align: center;
+}
+.contentCard{
+ width: 1130px;
+}
