@@ -2,11 +2,11 @@ import style from "./Recipe.module.scss"
 import {useContext} from "react";
 import {ApiContext} from "../../../../context/ApiContext.jsx";
 import recipes from "../../../../data/recipes.js";
-function Recipe( {recipe:{_id,image,title,liked},toggleRecipeLiked}){
+function Recipe( {recipe:{_id,image,title,liked},toggleRecipeLiked,deleteRecipe}){
 
     const ApiUrl = useContext(ApiContext)
 
-    async function handleClick(){
+    async function handleClickLiked(){
 
             try{
                 const response = await fetch(ApiUrl+'/'+_id,{
@@ -26,14 +26,29 @@ function Recipe( {recipe:{_id,image,title,liked},toggleRecipeLiked}){
             }
     }
 
-    return <div onClick={handleClick} className={`${style.recipe}`}>
+    async function handleClickDeleteRecipe(e){
+        e.stopPropagation();
+        try{
+            const reponse = await fetch(ApiUrl+'/'+_id,{
+                method:'DELETE'
+            })
+            if (reponse.ok){
+                 deleteRecipe(_id);
+            }
+        }catch(e){
+            console.log('error delete'+e.message);
+        }
+    }
+
+    return <div onClick={handleClickLiked} className={`${style.recipe}`}>
         <div className={`${style.imageContainer}`}>
-            <img src={`${(image).includes('http')?image:'src/assets/images/'+image}`} alt="recipe"/>
+            <img src={`${(image).includes('http') ? image : 'src/assets/images/' + image}`} alt="recipe"/>
         </div>
         <div className={`d-flex flex-col justify-content-center align-items-center ${style.recipeTitle}`}>
             <h3 className={`mb-10`}>{title}</h3>
-            <i className={`fa-solid fa-heart ${liked?'text-primary':''}`}></i>
+            <i className={`fa-solid fa-heart ${liked ? 'text-primary' : ''}`}></i>
         </div>
+        <button type="button" onClick={handleClickDeleteRecipe} className={` ${style.recipeDelete}`}><i className={`fa-solid fa-xmark`}></i></button>
     </div>
 
 }

@@ -2,6 +2,24 @@
 border-radius: 20px;
   height: 400px;
   cursor: pointer;
+  position: relative;
+  .recipeDelete{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: var(--primary);
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s opacity;
+    >i{
+      font-size: 40px;
+    }
+    &:hover{
+      opacity: 0.5;
+
+    }
+  }
   i {
     font-size: 20px;
   }
