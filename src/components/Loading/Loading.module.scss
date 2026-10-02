@@ -1,0 +1,15 @@
+.spinner{
+  font-size: 50px;
+  animation: rotate 2s infinite linear;
+
+}
+
+
+@keyframes rotate {
+  from{
+    transform: rotate(0);
+  }
+  to{
+    transform: rotate(360deg);
+  }
+}

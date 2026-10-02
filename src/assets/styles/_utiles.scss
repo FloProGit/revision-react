@@ -1,14 +1,31 @@
 .p-5{
   padding: 5px;
 }
+.pl-5{
+  padding-left: 5px;
+}
+.pr-5{
+  padding-right:5px;
+}
 .p-10{
   padding: 10px;
 }
-
+.pl-10{
+  padding-left: 10px;
+}
+.pr-10{
+  padding-right:10px;
+}
 .p-20{
   padding: 20px;
 }
+.pl-20{
+  padding-left: 20px;
+}
 
+.pr-20{
+  padding-right: 20px;
+}
 .mr-5{
   margin-right: 5px;
 }
@@ -25,6 +42,9 @@
 .m-20{
   margin: 20px;
 }
+.mb-10{
+  margin-bottom: 10px;
+}
 .my-30{
   margin: 20px 0px ;
 }
@@ -37,4 +57,13 @@
   max-width: 1200px;
   margin: auto;
   width: 100%;
+}
+
+.calc{
+  position: fixed;
+  top:0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+
 }

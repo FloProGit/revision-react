@@ -1,0 +1,15 @@
+.inputSearch{
+  width: 100%;
+  border: none;
+  &:focus{
+    outline: none;
+  }
+}
+
+.searchContainer{
+  border : white 2px solid;
+
+}
+.active{
+  border : var(--primary) 2px solid;
+}

@@ -1,13 +1,15 @@
-import Header from "./components/Header.jsx";
-import Footer from "./components/Footer.jsx";
-import Content from "./components/Content.jsx";
+import Header from "./components/Partials/Header/Header.jsx";
+import Footer from "./components/Partials/Footer/Footer.jsx";
+import Homepage from "./pages/Homepage/Homepage.jsx";
 import styles from './App.module.scss';
+// import {seedRecipes} from "./data/seed.js";
+// seedRecipes();
 function App() {
 
   return (
    <div className={`d-flex flex-col ${styles.appContainer}`}>
        <Header></Header>
-       <Content></Content>
+       <Homepage></Homepage>
        <Footer></Footer>
    </div>
   )
