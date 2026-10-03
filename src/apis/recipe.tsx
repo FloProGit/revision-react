@@ -1,7 +1,8 @@
+import type {IRecipe} from "../interface";
 
 const RECIPE_API = 'https://restapi.fr/api/florecipe'
 
-export async function getRecipes(queryParams,signal){
+export async function getRecipes(queryParams:URLSearchParams,signal:AbortSignal):Promise<IRecipe[]>{
     const UrlRequest= `${RECIPE_API}?${queryParams?`${queryParams}`:''}`;
     const response = await fetch(UrlRequest,{signal});
     if (response.ok){
@@ -12,7 +13,7 @@ export async function getRecipes(queryParams,signal){
         throw new Error('erreur getRecipe Api')
     }
 }
-export async function getRecipe(_id){
+export async function getRecipe(_id:string):Promise<IRecipe>{
     const response = await fetch(RECIPE_API+'/'+_id);
 
     if (response.ok){
@@ -22,7 +23,7 @@ export async function getRecipe(_id){
         throw new Error('error getRecipe');
     }
 }
-export async function deleteRecipe(_id){
+export async function deleteRecipe(_id:string):Promise<string>{
     const reponse = await fetch(RECIPE_API+'/'+_id,{
         method:'DELETE'
     })
@@ -32,7 +33,7 @@ export async function deleteRecipe(_id){
         throw new Error('erreur deleteRecipe');
     }
 }
-export async function updateRecipe(updatedRecipe){
+export async function updateRecipe(updatedRecipe:IRecipe):Promise<IRecipe>{
     const {_id,...restRecipe} =updatedRecipe;
 
         const response = await fetch(RECIPE_API+'/'+_id,{
@@ -48,7 +49,7 @@ export async function updateRecipe(updatedRecipe){
             throw new Error('error updateRecipe')
         }
 }
-export async function createRecipe(newRecipe){
+export async function createRecipe(newRecipe:IRecipe):Promise<IRecipe>{
     const response = await fetch(RECIPE_API,{
         headers:{
             'Content-Type':'application/json',

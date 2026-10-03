@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import AdminNav from "./components/AdminNav/AdminNav.jsx";
+import AdminNav from "./components/AdminNav/AdminNav";
 import {Suspense} from "react";
 
 function Admin(){

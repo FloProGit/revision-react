@@ -1,28 +1,28 @@
 import styles from "./Homepage.module.scss"
-import SearchBar from "./Components/searchBar/SearchBar.jsx";
-import {useContext, useEffect, useState} from "react";
-import Loading from "../../components/Loading/Loading.jsx";
-import Recipe from "./Components/Recipe/Recipe.jsx";
-import {ApiContext} from "../../context/ApiContext.jsx";
-import {useFetchRecipes} from "../../hooks/useFetchRecipes.jsx";
+import SearchBar from "./Components/searchBar/SearchBar";
+import {type ReactElement, useState} from "react";
+import Loading from "../../components/Loading/Loading";
+import Recipe from "./Components/Recipe/Recipe";
+import {useFetchRecipes} from "../../hooks/useFetchRecipes";
 import {
     updateRecipe as updateR,
     deleteRecipe as deleteR
 } from "../../apis";
+import type {IRecipe} from "../../interface";
 
-function Homepage(){
+function Homepage():ReactElement{
     const [filter,setFilter] = useState('');
     const [page,setPage] = useState(1);
     const [[recipes,setRecipes],isLoading] = useFetchRecipes(page)
 
-    async function updateRecipe(updatedRecipe){
+    async function updateRecipe(updatedRecipe:IRecipe):Promise<void>{
        const recipeUpdated = await updateR(updatedRecipe);
         setRecipes(recipes.map((r)=>r._id === recipeUpdated._id ? recipeUpdated : r ))
 
 
     }
 
-    async function deleteRecipe(_id){
+    async function deleteRecipe(_id:string):Promise<void>{
         await deleteR(_id)
         setRecipes(recipes.filter(r=>r._id !== _id));
 

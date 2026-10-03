@@ -1,7 +1,8 @@
 import styles from './HeaderMenu.module.scss';
 import {NavLink} from "react-router-dom";
+import type {ReactElement} from "react";
 
-function headerMenu() {
+function headerMenu():ReactElement {
 
 
     return (

@@ -2,17 +2,19 @@ import styles from './AdminRecipeForm.module.scss'
 import * as yup from 'yup';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {createRecipe, updateRecipe} from "../../../../../../apis/index.jsx";
-import {redirect, useLoaderData, useNavigate} from "react-router-dom";
-function AdminRecipeForm(){
+import {createRecipe, updateRecipe} from "../../../../../../apis";
+import { useLoaderData, useNavigate} from "react-router-dom";
+import type {ReactElement} from "react";
+import type { RecipeFormValues} from "../../../../../../interface";
+function AdminRecipeForm():ReactElement{
     'use no memo';///utile maintenant car le reset() ne ce fait que en interne et ne vide pas les champs
 
     const recipe = useLoaderData();
     const navigate = useNavigate();
-    console.log('recipe',recipe)
-    const defaultValues = {
+    const defaultValues:RecipeFormValues = {
         title :recipe ? recipe.title : '',
-        image:recipe ? recipe.image : ''
+        image:recipe ? recipe.image : '',
+        liked:false,
     }
 
     const recipeSchema = yup.object({
@@ -23,6 +25,7 @@ function AdminRecipeForm(){
         image:yup.string()
             .required('il faut une reseigné une image')
             .url("l'image dois être un lien valide"),
+        like:yup.boolean()
     })
 
 
@@ -37,22 +40,25 @@ function AdminRecipeForm(){
         resolver:yupResolver(recipeSchema)
     })
 
-    async function submit(values){
+    async function submit(values:RecipeFormValues):Promise<void>{
         try{
             clearErrors();
             if (recipe){
-                const updatedRecipe = await updateRecipe({...values,_id:recipe._id})
-                // reset({
-                //     title:updatedRecipe.title,
-                //     image:updatedRecipe.image
-                // });
+                await updateRecipe({...values,_id:recipe._id})
                 navigate('../list')
             }else {
                 await createRecipe(values);
+                reset(defaultValues);
             }
-            reset(defaultValues);
         }catch (e){
-            console.log('error form '+e.message)
+            if (e instanceof Error ){
+                console.log('error form '+e.message)
+
+            }else{
+                console.log('error form ')
+                setError("root.generic",{type:"generic",message:"il y a une erreur submit"})
+
+            }
         }
     }
 
@@ -72,7 +78,7 @@ function AdminRecipeForm(){
                 {errors.image && <p className="form-error">{errors.image.message}</p>}
 
             </div>
-            {errors.generic && <p className="form-error">{errors.generic.message}</p>}
+            {errors.root && <p className="form-error">{errors.root.message}</p>}
             <div>
                 <button disabled={isSubmitting} className={`btn btn-primary`}> Sauvegarder</button>
             </div>

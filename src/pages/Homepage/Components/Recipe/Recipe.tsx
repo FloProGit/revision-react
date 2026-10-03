@@ -1,18 +1,26 @@
 import style from "./Recipe.module.scss"
-import {useContext} from "react";
-import {ApiContext} from "../../../../context/ApiContext.jsx";
-import recipes from "../../../../data/recipes.js";
-function Recipe( {recipe,updateRecipe,deleteRecipe}){
-    function handleClicklickedRecipe(){
+import * as React from "react";
+import type {IRecipe} from "../../../../interface";
+import type {ReactElement} from "react";
+
+type RecipeProps = {
+    recipe:IRecipe;
+    updateRecipe: (recipe: IRecipe) => void;
+    deleteRecipe: (id: string) => void;
+};
+
+
+function Recipe( {recipe,updateRecipe,deleteRecipe}:RecipeProps):ReactElement{
+    function handleClicklickedRecipe():void{
         updateRecipe(
             {...recipe,
                 liked:!recipe.liked
             }
         )
     }
-    async function handleClickDeleteRecipe(e){
+    async function handleClickDeleteRecipe(e:  React.MouseEvent<HTMLButtonElement>):Promise<void>{
         e.stopPropagation();
-        deleteRecipe(recipe._id);
+        deleteRecipe(recipe._id!);
     }
 
     return <div onClick={handleClicklickedRecipe} className={`${style.recipe}`}>

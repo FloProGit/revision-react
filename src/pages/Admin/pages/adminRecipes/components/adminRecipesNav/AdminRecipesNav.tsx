@@ -1,6 +1,7 @@
 import {NavLink} from "react-router-dom";
 import styles from './AdminRecipesNav.module.scss'
-function AdminRecipesNav(){
+import type {ReactElement} from "react";
+function AdminRecipesNav():ReactElement{
     return (
         <ul className={`d-flex flex-row ${styles.list}`}>
             <NavLink className={({isActive})=>isActive?styles.active:''} to="list" >Lists des recettes</NavLink>

@@ -1,17 +1,23 @@
 import styles from './SearchBar.module.scss'
-import {useState} from "react";
-function SearchBar({setFilter}){
+import {type ReactElement, useState} from "react";
+import * as React from "react";
+
+type SearchBarProps = {
+    setFilter: React.Dispatch<React.SetStateAction<string>>;
+};
+
+function SearchBar({setFilter}:SearchBarProps):ReactElement{
     const [focus,setFocus] = useState(false);
 
 
-    function handleFocus(){
+    function handleFocus():void{
         setFocus(true)
     }
-    function handleBlur(){
+    function handleBlur():void{
         setFocus(false)
     }
 
-    function handleChange(e){
+    function handleChange(e: React.ChangeEvent<HTMLInputElement>):void{
         setFilter(e.target.value)
     }
 

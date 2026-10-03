@@ -1,12 +1,11 @@
-import Header from "./components/Partials/Header/Header.jsx";
-import Footer from "./components/Partials/Footer/Footer.jsx";
+import Header from "./components/Partials/Header/Header";
+import Footer from "./components/Partials/Footer/Footer";
 import styles from './App.module.scss';
 import {Outlet} from "react-router-dom";
-import {Suspense} from "react";
-import {getRecipe} from "./apis/index.jsx";
+import {type ReactElement, Suspense} from "react";
 // import {seedRecipes} from "./data/seed.js";
 // seedRecipes();
-function App() {
+function App():ReactElement {
 
   return (
    <div className={`d-flex flex-col ${styles.appContainer}`}>

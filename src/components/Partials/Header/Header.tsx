@@ -1,9 +1,9 @@
 import styles from "./Header.module.scss"
 import cookchef from "../../../assets/images/logo.png"
-import {useState} from "react";
-import HeaderMenu from "./HeaderMenu.jsx";
+import {type ReactElement, useState} from "react";
+import HeaderMenu from "./HeaderMenu";
 import {NavLink} from "react-router-dom";
-function Header(){
+function Header():ReactElement{
 
     const [burgerOpen,setBurgerOpen] = useState(false);
 
