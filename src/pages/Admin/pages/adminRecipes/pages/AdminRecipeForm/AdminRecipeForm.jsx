@@ -1,17 +1,18 @@
-import styles from './RecipeForm.module.scss'
+import styles from './AdminRecipeForm.module.scss'
 import * as yup from 'yup';
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import {useContext} from "react";
-import {ApiContext} from "../../../context/ApiContext.jsx";
-function RecipeForm(){
-    'use no memo';///utile maintenant provoque le reset() ne ce fait que en interne et ne vide pas les champs
-    const ApiUrl= useContext(ApiContext);
+import {createRecipe, updateRecipe} from "../../../../../../apis/index.jsx";
+import {redirect, useLoaderData, useNavigate} from "react-router-dom";
+function AdminRecipeForm(){
+    'use no memo';///utile maintenant car le reset() ne ce fait que en interne et ne vide pas les champs
 
-
+    const recipe = useLoaderData();
+    const navigate = useNavigate();
+    console.log('recipe',recipe)
     const defaultValues = {
-        title :'',
-        image:''
+        title :recipe ? recipe.title : '',
+        image:recipe ? recipe.image : ''
     }
 
     const recipeSchema = yup.object({
@@ -37,23 +38,19 @@ function RecipeForm(){
     })
 
     async function submit(values){
-        clearErrors();
         try{
-            console.log('ApiUrl',ApiUrl);
-            const response = await fetch(ApiUrl,{
-                method:'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body:JSON.stringify(values)
-            })
-
-            if (response.ok){
-                reset(defaultValues);
-                console.log('test ',defaultValues)
-            }else{
-                setError('generic',{type:'generic',message:'erreur Generic'})
+            clearErrors();
+            if (recipe){
+                const updatedRecipe = await updateRecipe({...values,_id:recipe._id})
+                // reset({
+                //     title:updatedRecipe.title,
+                //     image:updatedRecipe.image
+                // });
+                navigate('../list')
+            }else {
+                await createRecipe(values);
             }
+            reset(defaultValues);
         }catch (e){
             console.log('error form '+e.message)
         }
@@ -83,4 +80,4 @@ function RecipeForm(){
     )
 }
 
-export default RecipeForm;
+export default AdminRecipeForm;

@@ -4,21 +4,28 @@ import {useContext, useEffect, useState} from "react";
 import Loading from "../../components/Loading/Loading.jsx";
 import Recipe from "./Components/Recipe/Recipe.jsx";
 import {ApiContext} from "../../context/ApiContext.jsx";
-import {useFetchData} from "../../hooks/useFetchData.jsx";
+import {useFetchRecipes} from "../../hooks/useFetchRecipes.jsx";
+import {
+    updateRecipe as updateR,
+    deleteRecipe as deleteR
+} from "../../apis";
+
 function Homepage(){
     const [filter,setFilter] = useState('');
     const [page,setPage] = useState(1);
-    const Apiurl = useContext(ApiContext);
-    const [[recipes,setRecipes],isLoading] = useFetchData(Apiurl,page)
+    const [[recipes,setRecipes],isLoading] = useFetchRecipes(page)
 
-    console.log(recipes)
-    function updateRecipe(updatedRecipe){
-        setRecipes(recipes.map((r)=>r._id === updatedRecipe._id ? updatedRecipe : r ))
+    async function updateRecipe(updatedRecipe){
+       const recipeUpdated = await updateR(updatedRecipe);
+        setRecipes(recipes.map((r)=>r._id === recipeUpdated._id ? recipeUpdated : r ))
+
+
     }
 
-    function deleteRecipe(_id){
-
+    async function deleteRecipe(_id){
+        await deleteR(_id)
         setRecipes(recipes.filter(r=>r._id !== _id));
+
 
     }
     return <div className={` flex-fill d-flex flex-col container p-20`}>
@@ -30,7 +37,7 @@ function Homepage(){
         {isLoading && !recipes.length  ? (<Loading/>) : (
             <div className={`d-flex flex-col`}>
             <div className={styles.grid}>
-                    { recipes.filter((r)=> r?.title?.toLowerCase().includes(filter?.toLowerCase())).map((recipe)=> (<Recipe key={recipe._id} recipe={recipe} toggleRecipeLiked={updateRecipe} deleteRecipe={deleteRecipe}/>))}
+                    { recipes.filter((r)=> r?.title?.toLowerCase().includes(filter?.toLowerCase())).map((recipe)=> (<Recipe key={recipe._id} recipe={recipe} updateRecipe={updateRecipe} deleteRecipe={deleteRecipe}/>))}
             </div>
                 <div className={`d-flex justify-content-center align-items-center m-10`}>
                      <button className={`btn btn-primary`} onClick={()=>setPage(page+1)}>voir plus</button>
