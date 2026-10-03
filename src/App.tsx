@@ -5,6 +5,9 @@ import {Outlet} from "react-router-dom";
 import {type ReactElement, Suspense} from "react";
 // import {seedRecipes} from "./data/seed.js";
 // seedRecipes();
+
+
+// AIDE SUR LES TYPE REACT https://github.com/typescript-cheatsheets/react
 function App():ReactElement {
 
   return (
